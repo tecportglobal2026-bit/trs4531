@@ -1,73 +1,79 @@
-# Welcome to your Lovable project
+# TRS4531 Reach Stacker - Product Selector
 
-## Project info
+Sitio web interactivo para el selector de productos TRS4531 Reach Stacker en versiones Diesel y Eléctrica.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## Tecnologías
 
-## How can I edit this code?
-
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
+Este proyecto está construido con:
 
 - Vite
 - TypeScript
 - React
 - shadcn-ui
 - Tailwind CSS
+- React Router
+- React Phone Input
+- PhoneInput component
 
-## How can I deploy this project?
+## Desarrollo
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+### Requisitos previos
 
-## Can I connect a custom domain to my Lovable project?
+- [Bun](https://bun.sh/) instalado en tu sistema
 
-Yes, you can!
+### Instalación
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+```sh
+# Clonar el repositorio
+git clone <YOUR_GIT_URL>
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+# Navegar al directorio del proyecto
+cd tecport-selector
+
+# Instalar dependencias
+bun install
+
+# Iniciar servidor de desarrollo
+bun run dev
+```
+
+El servidor de desarrollo estará disponible en `http://localhost:8080`
+
+## Scripts disponibles
+
+```sh
+bun run dev          # Servidor de desarrollo
+bun run build        # Build de producción
+bun run build:dev    # Build en modo desarrollo
+bun run preview      # Preview del build
+bun run lint         # Linter
+bun run test         # Tests
+bun run test:watch   # Tests en modo watch
+```
+
+## Estructura del proyecto
+
+```
+src/
+├── assets/          # Imágenes y recursos estáticos
+├── components/      # Componentes React reutilizables
+├── hooks/           # Custom hooks
+├── i18n/            # Traducciones (ES, EN, PT)
+├── lib/             # Utilidades
+├── pages/           # Páginas de la aplicación
+└── test/            # Tests
+```
+
+## Características
+
+- ✅ Multiidioma (Español, Inglés, Portugués)
+- ✅ Diseño responsive
+- ✅ Integración con Google Sheets para formularios
+- ✅ Descarga de brochures con formulario de seguridad
+- ✅ Chat interactivo Sofia
+- ✅ Galería de imágenes y videos
+- ✅ Secciones de especificaciones técnicas
+
+## Licencia
+
+© 2024 Tecport. Todos los derechos reservados.

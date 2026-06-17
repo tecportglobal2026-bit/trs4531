@@ -1,5 +1,5 @@
 import { useTranslation } from "@/i18n/LanguageContext";
-import tecportLogo from "@/assets/tecport-logo.png";
+import tecportLogo from "@/assets/logo-sin-fondo-tecport.webp";
 import { MapPin, Phone } from "lucide-react";
 
 const Footer = () => {
@@ -14,7 +14,7 @@ const Footer = () => {
             <img
               src={tecportLogo}
               alt="Tecport"
-              className="mb-4 h-10 w-auto brightness-0 invert"
+              className="mb-4 h-10 w-auto"
             />
             <p className="text-sm opacity-70">{t.footer.tagline}</p>
           </div>
@@ -29,6 +29,12 @@ const Footer = () => {
                     {office.address}
                     <br />
                     {office.city}
+                    {'postalInfo' in office && (office as any).postalInfo && (
+                      <>
+                        <br />
+                        {(office as any).postalInfo}
+                      </>
+                    )}
                   </span>
                 </p>
                 {office.phone && (

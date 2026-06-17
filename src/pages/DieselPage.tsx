@@ -1,234 +1,164 @@
 import { useTranslation } from "@/i18n/LanguageContext";
+import { useMemo, useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SofiaChat from "@/components/SofiaChat";
-import heroDiesel from "@/assets/hero-diesel.jpg";
-import dieselMachine from "@/assets/trs4531-diesel.png";
-import canbusImg from "@/assets/canbus-technology.jpg";
-import hydraulicImg from "@/assets/hydraulic-system.jpg";
-import engineImg from "@/assets/cummins-engine.jpg";
-import cabinImg from "@/assets/operator-cabin.jpg";
-import portImg from "@/assets/port-panorama.jpg";
-import { ArrowRight, Cog, Gauge, Shield, Wrench, Monitor, Zap } from "lucide-react";
+import BrochuresSection from "@/components/BrochuresSection";
+import HeroSection from "@/components/HeroSection";
+import ContactForm from "@/components/ContactForm";
+import SectionTitle from "@/components/SectionTitle";
+
+import heroDiesel from "@/assets/diesel/hero/hero-diesel.webp";
+import gallery1 from "@/assets/diesel/gallery/1.webp";
+import gallery2 from "@/assets/diesel/gallery/2.webp";
+import gallery3 from "@/assets/diesel/gallery/3.webp";
+import gallery4 from "@/assets/diesel/gallery/4.webp";
+import gallery5 from "@/assets/diesel/gallery/5.webp";
+import gallery6 from "@/assets/diesel/gallery/6.webp";
+import galleryVideo from "@/assets/diesel/gallery/video2.webm";
+import canbusImg from "@/assets/diesel/technology/can-bus.webp";
+import contactImg from "@/assets/diesel/contact/trs4531-diesel-sinfondo.webp";
+import portIndustrial from "@/assets/port-panorama.webp";
+import TablaCargaModal from "../components/TablaCargaModal";
+import FeaturesSection from "@/components/FeaturesSection";
+import SpecificationsSection from "@/components/SpecificationsSection";
+import TechnologySection from "@/components/TechnologySection";
+import GallerySection from "@/components/GallerySection";
+import tablaCargaImg from "@/assets/electrica/gallery/tabla-carga-dv.webp";
+
+
+// Map de brochures por idioma
+const BROCHURES = {
+  technical: {
+    es: "/diesel/brochures/TRS4531_Tecnico_ES.pdf",
+    en: "/diesel/brochures/TRS4531_Technical_EN.pdf",
+    pt: "/diesel/brochures/TRS4531_Tecnico_PT.pdf",
+  },
+  commercial: {
+    es: "/diesel/brochures/TRS4531_Comercial_ES.pdf",
+    en: "/diesel/brochures/TRS4531_Commercial_EN.pdf",
+    pt: "/diesel/brochures/TRS4531_Comercial_PT.pdf",
+  },
+} as const;
 
 const DieselPage = () => {
-  const { t } = useTranslation();
+  const { t, lang } = useTranslation();
+  const [tablaCargaOpen, setTablaCargaOpen] = useState(false);
+
   const d = t.diesel;
   const features = d.features;
-  const featureIcons = [Cog, Gauge, Wrench, Shield, Monitor, Zap];
-  const featureKeys = Object.keys(features) as (keyof typeof features)[];
-  const techKeys = Object.keys(d.tech) as (keyof typeof d.tech)[];
-  const specKeys = Object.keys(d.specs) as (keyof typeof d.specs)[];
-  const galleryImages = [dieselMachine, engineImg, hydraulicImg, cabinImg, portImg, canbusImg];
+
+  // galleryImages: array de objetos { src, alt }
+  const galleryImages = useMemo(
+    () => [
+      { src: gallery1, alt: "Galería 1" },
+      { src: gallery2, alt: "Galería 2" },
+      { src: gallery3, alt: "Galería 3" },
+      { src: gallery4, alt: "Galería 4" },
+      { src: gallery5, alt: "Galería 5" },
+      { src: gallery6, alt: "Galería 6" }
+    ],
+    []
+  );
 
   return (
-    <div className="bg-background">
+    <div>
       <Header />
 
       {/* Hero */}
-      <section
-        id="hero"
-        className="relative flex min-h-[80vh] items-center"
-        style={{
-          backgroundImage: `url(${heroDiesel})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundAttachment: "fixed",
-        }}
-      >
-        <div className="absolute inset-0 bg-primary/60" />
-        <div className="container relative z-10">
-          <h1 className="max-w-3xl font-titles text-4xl font-extrabold text-primary-foreground md:text-6xl">
-            {d.hero}
-          </h1>
-          <p className="mt-4 max-w-xl text-lg text-primary-foreground/80">
-            {d.heroSub}
-          </p>
-          <a
-            href="#features"
-            className="mt-8 inline-flex items-center gap-2 bg-accent px-8 py-3 font-titles text-sm font-bold uppercase text-accent-foreground transition-opacity hover:opacity-90"
-          >
-            {t.nav.features}
-            <ArrowRight className="h-4 w-4" />
-          </a>
-        </div>
-      </section>
+      <HeroSection
+        backgroundImage={heroDiesel}
+        title={d.hero}
+        subtitle={d.heroSub}
+        featuresLabel={t.nav.features}
+        brochuresLabel={"Brochures"}
+      />
 
       {/* Features */}
-      <section id="features" className="section-padding">
-        <div className="container">
-          <div className="accent-bar" />
-          <h2 className="mb-12 text-3xl font-bold text-primary">{d.features_title}</h2>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {featureKeys.map((key, i) => {
-              const Icon = featureIcons[i];
-              const f = features[key];
-              return (
-                <div
-                  key={key}
-                  className="border border-border p-8 transition-colors hover:border-accent"
-                >
-                  <Icon className="mb-4 h-8 w-8 text-accent" />
-                  <h3 className="mb-3 font-titles text-lg font-bold text-primary">
-                    {f.title}
-                  </h3>
-                  <p className="text-sm leading-relaxed text-muted-foreground">
-                    {f.desc}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+      <FeaturesSection
+        features={features}
+        featuresTitle={d.features_title}
+      />
 
       {/* Technology */}
-      <section id="technology" className="section-padding bg-secondary">
-        <div className="container">
-          <div className="accent-bar" />
-          <h2 className="mb-12 text-3xl font-bold text-primary">{d.tech_title}</h2>
-          <div className="grid items-center gap-12 lg:grid-cols-2">
-            <div className="space-y-8">
-              {techKeys.map((key) => {
-                const tech = d.tech[key];
-                return (
-                  <div key={key}>
-                    <h3 className="mb-2 font-titles text-lg font-bold text-primary">
-                      {tech.title}
-                    </h3>
-                    <p className="text-sm leading-relaxed text-muted-foreground">
-                      {tech.desc}
-                    </p>
-                  </div>
-                );
-              })}
-            </div>
-            <div className="overflow-hidden">
-              <img
-                src={canbusImg}
-                alt="CAN-Bus Technology"
-                className="h-auto w-full object-cover"
-                loading="lazy"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
+      <TechnologySection
+        tech={d.tech}
+        techTitle={d.tech_title}
+        techImg={canbusImg}
+        techImgAlt="Imagen CANBUS"
+      />
 
       {/* Specifications */}
-      <section id="specs" className="section-padding">
-        <div className="container">
-          <div className="accent-bar" />
-          <h2 className="mb-12 text-3xl font-bold text-primary">{d.specs_title}</h2>
-          <div className="grid gap-px bg-border md:grid-cols-2 lg:grid-cols-3">
-            {specKeys.map((key) => {
-              const spec = d.specs[key];
-              return (
-                <div
-                  key={key}
-                  className="flex items-center justify-between bg-background p-6"
-                >
-                  <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                    {spec.label}
-                  </span>
-                  <span className="font-titles text-sm font-bold text-primary">
-                    {spec.value}
-                  </span>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+      <SpecificationsSection
+        specs={d.specs}
+        specKeys={Object.keys(d.specs)}
+        title={d.specs_title}
+      />
+
+      {/* Brochures */}
+      <BrochuresSection
+        brochures={BROCHURES}
+        backgroundImage={portIndustrial}
+        translations={{
+          title: d.brochures_title,
+          technical: d.technical,
+          commercial: d.commercial,
+          modalTitle: t.brochureModal.title,
+          modalSubtitle: t.brochureModal.subtitle,
+          name: t.contact.name,
+          lastName: t.contact.lastName,
+          email: t.contact.email,
+          phone: t.contact.phone,
+          terms: t.contact.terms,
+          download: t.brochureModal.download,
+          downloading: t.brochureModal.downloading,
+        }}
+        lang={lang}
+        product="TRS4531"
+        variant="Diesel"
+      />
 
       {/* Gallery */}
-      <section id="gallery" className="section-padding bg-secondary">
-        <div className="container">
-          <div className="accent-bar" />
-          <h2 className="mb-12 text-3xl font-bold text-primary">{d.gallery_title}</h2>
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {galleryImages.map((img, i) => (
-              <div key={i} className="overflow-hidden bg-background">
-                <img
-                  src={img}
-                  alt={`Gallery ${i + 1}`}
-                  className="h-64 w-full object-cover transition-transform duration-500 hover:scale-105"
-                  loading="lazy"
-                />
-              </div>
-            ))}
+      <GallerySection
+        galleryImages={galleryImages}
+        tablaCargaImg={tablaCargaImg}
+        galleryTitle={d.gallery_title}
+        lang={lang}
+        video={{
+          src: galleryVideo,
+          videoLabel: d.gallery_video_label,
+          photosLabel: d.gallery_photos_label,
+        }}
+      />
+
+
+      {/* Contact */}
+      <section id="contact" className="scroll-mt-24 py-8 px-4 md:px-12 bg-background">
+        <SectionTitle
+          title={t.nav.contact.toUpperCase()}
+          subtitle={t.contact?.subtitle || "Estamos presentes en todo el mundo y listos para atenderle."}
+        />
+        <div className="flex flex-col md:flex-row gap-8 items-center justify-center">
+          <div className="w-full md:w-1/2 flex justify-center">
+            <img
+              src={contactImg}
+              alt="contact"
+              className="max-w-full h-auto rounded-lg shadow-md"
+              style={{ minWidth: 260, maxWidth: 480 }}
+            />
+          </div>
+          <div className="w-full md:w-1/2">
+            <ContactForm lang={lang} variant="diesel" t={t} />
           </div>
         </div>
       </section>
 
-      {/* Contact */}
-      <section id="contact" className="section-padding">
-        <div className="container">
-          <div className="accent-bar" />
-          <h2 className="mb-4 text-3xl font-bold text-primary">{t.contact.title}</h2>
-          <p className="mb-12 text-muted-foreground">{t.contact.subtitle}</p>
-          <div className="grid gap-12 lg:grid-cols-2">
-            <div className="grid gap-6 sm:grid-cols-2">
-              {[t.offices.peru, t.offices.chile, t.offices.brazil, t.offices.usa].map(
-                (office, i) => (
-                  <div key={i} className="border border-border p-6">
-                    <h3 className="mb-2 font-titles text-sm font-bold text-primary">
-                      {office.country}
-                    </h3>
-                    <p className="text-sm text-muted-foreground">
-                      {office.address}
-                      <br />
-                      {office.city}
-                    </p>
-                    {office.phone && (
-                      <p className="mt-2 text-sm font-semibold text-accent">
-                        {office.phone}
-                      </p>
-                    )}
-                  </div>
-                )
-              )}
-            </div>
-            <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
-              <div className="grid gap-4 sm:grid-cols-2">
-                <input
-                  type="text"
-                  placeholder={t.contact.name}
-                  className="border border-border bg-transparent px-4 py-3 text-sm outline-none focus:border-accent"
-                />
-                <input
-                  type="email"
-                  placeholder={t.contact.email}
-                  className="border border-border bg-transparent px-4 py-3 text-sm outline-none focus:border-accent"
-                />
-              </div>
-              <div className="grid gap-4 sm:grid-cols-2">
-                <input
-                  type="text"
-                  placeholder={t.contact.company}
-                  className="border border-border bg-transparent px-4 py-3 text-sm outline-none focus:border-accent"
-                />
-                <input
-                  type="tel"
-                  placeholder={t.contact.phone}
-                  className="border border-border bg-transparent px-4 py-3 text-sm outline-none focus:border-accent"
-                />
-              </div>
-              <textarea
-                rows={5}
-                placeholder={t.contact.message}
-                className="w-full border border-border bg-transparent px-4 py-3 text-sm outline-none focus:border-accent"
-              />
-              <button
-                type="submit"
-                className="bg-primary px-8 py-3 font-titles text-sm font-bold uppercase text-primary-foreground transition-colors hover:bg-accent"
-              >
-                {t.contact.send}
-              </button>
-            </form>
-          </div>
-        </div>
-      </section>
+      <TablaCargaModal
+        open={tablaCargaOpen}
+        onClose={() => setTablaCargaOpen(false)}
+        imgSrc={tablaCargaImg}
+        imgAlt="Tabla de Carga TRS4531"
+      />
 
       <Footer />
       <SofiaChat variant="diesel" />

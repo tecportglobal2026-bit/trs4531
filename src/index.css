@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Open+Sans:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;900&family=Open+Sans:wght@400;600&family=Montserrat:wght@400;500;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -36,8 +36,9 @@
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 204 100% 17%;
 
-    --font-titles: 'Montserrat', sans-serif;
+    --font-titles: 'Plus Jakarta Sans', sans-serif;
     --font-body: 'Open Sans', sans-serif;
+    --font-header-nav: 'Montserrat', sans-serif;
     --transition-standard: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
@@ -56,12 +57,43 @@
 
   h1, h2, h3, h4 {
     font-family: var(--font-titles);
+    font-weight: 600;
     text-transform: uppercase;
     letter-spacing: -0.02em;
+  }
+
+  h1 {
+    font-family: var(--font-header-nav);
+    font-weight: 800;
+    font-size: 60px;
+    line-height: 60px;
+  }
+
+  h2 {
+    font-size: 27px;
+    line-height: 30px;
+  }
+
+  h3 {
+    font-family: var(--font-titles);
+    font-style: normal;
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 21px;
   }
 }
 
 @layer components {
+  .header-nav-text {
+    font-family: var(--font-header-nav);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 10.5px;
+    line-height: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+
   .section-padding {
     @apply py-24;
   }
@@ -82,8 +114,51 @@
   .accent-bar {
     @apply w-10 h-1 bg-accent mb-4;
   }
+
+  .gallery-item {
+    @apply relative overflow-hidden bg-secondary;
+    contain: strict;
+    aspect-ratio: 3/2;
+  }
+
+  .gallery-image {
+    @apply h-full w-full object-cover;
+    display: block;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .gallery-item:hover .gallery-image {
+    transform: scale(1.05);
+  }
+
+  .tech-image-container {
+    @apply overflow-hidden;
+  }
+
+  .tech-image {
+    @apply h-full w-full object-cover;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .tech-image-container:hover .tech-image {
+    transform: scale(1.05);
+  }
+
+  .parallax-section {
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+  }
+
+  @media (max-width: 768px) {
+    .parallax-section {
+      background-attachment: scroll;
+    }
+  }
 }
 
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
 }

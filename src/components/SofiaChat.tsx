@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "@/i18n/LanguageContext";
-import { MessageCircle, X, Send } from "lucide-react";
+import { X, Send } from "lucide-react";
+import sofiaIcon from "/assets/icono-flotante.webp";
 
 interface ChatMessage {
   role: "user" | "sofia";
@@ -15,13 +16,13 @@ const SofiaChat = ({ variant }: { variant: "diesel" | "electric" }) => {
   const [isLoading, setIsLoading] = useState(false);
   const chatEndRef = useRef<HTMLDivElement>(null);
 
-  const sessionId = useRef(() => {
+  const [sessionId] = useState(() => {
     const saved = localStorage.getItem("tecport_session");
     if (saved) return saved;
     const newId = crypto.randomUUID();
     localStorage.setItem("tecport_session", newId);
     return newId;
-  }).current();
+  });
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -34,15 +35,20 @@ const SofiaChat = ({ variant }: { variant: "diesel" | "electric" }) => {
     setMessage("");
     setIsLoading(true);
 
+    const webhookUrl = import.meta.env.VITE_N8N_WEBHOOK_URL;
+
+    if (!webhookUrl) {
+      setChat((prev) => [...prev, { role: "sofia", content: t.sofia.error }]);
+      setIsLoading(false);
+      return;
+    }
+
     try {
-      const response = await fetch(
-        "https://n8n-n8n.dfp88a.easypanel.host/webhook/e024ac5e-c546-414e-95e7-4ccd16d2c928",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message: userMsg.content, sessionId, variant }),
-        }
-      );
+      const response = await fetch(webhookUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: userMsg.content, sessionId, variant }),
+      });
       const data = await response.text();
       setChat((prev) => [...prev, { role: "sofia", content: data }]);
     } catch {
@@ -119,9 +125,15 @@ const SofiaChat = ({ variant }: { variant: "diesel" | "electric" }) => {
 
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg transition-colors hover:bg-accent"
+        className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-full shadow-xl transition-transform hover:scale-105"
       >
-        {isOpen ? <X className="h-5 w-5" /> : <MessageCircle className="h-5 w-5" />}
+        {isOpen ? (
+          <div className="flex h-full w-full items-center justify-center bg-primary">
+            <X className="h-6 w-6 text-primary-foreground" />
+          </div>
+        ) : (
+          <img src={sofiaIcon} alt="Sofia Chat" className="h-full w-full object-cover" />
+        )}
       </button>
     </div>
   );
