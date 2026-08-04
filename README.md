@@ -1,79 +1,54 @@
-# TRS4531 Reach Stacker - Product Selector
+# Landing Page TRS4531
 
-Sitio web interactivo para el selector de productos TRS4531 Reach Stacker en versiones Diesel y Eléctrica.
-
-## Tecnologías
-
-Este proyecto está construido con:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-- React Router
-- React Phone Input
-- PhoneInput component
-
-## Desarrollo
-
-### Requisitos previos
-
-- [Bun](https://bun.sh/) instalado en tu sistema
-
-### Instalación
-
-```sh
-# Clonar el repositorio
-git clone <YOUR_GIT_URL>
-
-# Navegar al directorio del proyecto
-cd tecport-selector
-
-# Instalar dependencias
-bun install
-
-# Iniciar servidor de desarrollo
-bun run dev
-```
-
-El servidor de desarrollo estará disponible en `http://localhost:8080`
-
-## Scripts disponibles
-
-```sh
-bun run dev          # Servidor de desarrollo
-bun run build        # Build de producción
-bun run build:dev    # Build en modo desarrollo
-bun run preview      # Preview del build
-bun run lint         # Linter
-bun run test         # Tests
-bun run test:watch   # Tests en modo watch
-```
-
-## Estructura del proyecto
-
-```
-src/
-├── assets/          # Imágenes y recursos estáticos
-├── components/      # Componentes React reutilizables
-├── hooks/           # Custom hooks
-├── i18n/            # Traducciones (ES, EN, PT)
-├── lib/             # Utilidades
-├── pages/           # Páginas de la aplicación
-└── test/            # Tests
-```
+Este proyecto es una landing page de producto construida con React 19, Vite 4 y Tailwind CSS 4. Está diseñada para presentar las variantes diesel y eléctrica del modelo TRS4531, con soporte multilingüe y descarga de folletos.
 
 ## Características
 
-- ✅ Multiidioma (Español, Inglés, Portugués)
-- ✅ Diseño responsive
-- ✅ Integración con Google Sheets para formularios
-- ✅ Descarga de brochures con formulario de seguridad
-- ✅ Chat interactivo Sofia
-- ✅ Galería de imágenes y videos
-- ✅ Secciones de especificaciones técnicas
+- React 19 + Vite 4 con configuración moderna de frontend
+- Tailwind CSS para estilos responsivos y diseño móvil-first
+- React Router DOM para navegación entre páginas
+- Soporte multilenguaje con contenido en `en`, `es` y `pt`
+- Páginas para `Diesel` y `Eléctrico`, galerías, fichas técnicas y secciones de tecnología
+- Formularios de contacto y modal de descarga de folletos
+- Configuración lista para despliegue en Netlify
 
-## Licencia
+## Estructura del proyecto
 
-© 2024 Tecport. Todos los derechos reservados.
+- `src/` – aplicación principal
+  - `components/` – componentes reutilizables por dominio
+  - `pages/` – páginas de producto e inicio
+  - `routes/` – rutas de React Router
+  - `context/` – proveedor de idioma
+  - `data/` – contenido, especificaciones e imágenes
+  - `services/` – funciones de envío de formulario
+  - `utils/` – validaciones y utilidades
+- `public/` – archivos estáticos, redirecciones y sitemap
+- `package.json` – dependencias y scripts
+- `netlify.toml` – configuración de despliegue Netlify
+
+## Comandos disponibles
+
+```bash
+npm install
+npm run dev
+npm run build
+npm run preview
+npm run lint
+```
+
+## Flujo de desarrollo
+
+1. Instalar dependencias con `npm install`
+2. Iniciar el servidor de desarrollo con `npm run dev`
+3. Abrir `http://localhost:5173`
+4. Ejecutar `npm run lint` para comprobar reglas Oxc
+5. Construir el proyecto para producción con `npm run build`
+
+## Despliegue en Netlify
+
+La configuración de Netlify se encuentra en `netlify.toml`.
+
+- `build` command: `npm run build`
+- `publish` directory: `dist`
+- Redirección SPA: `/index.html`
+
